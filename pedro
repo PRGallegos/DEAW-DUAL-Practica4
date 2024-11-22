@@ -1,0 +1,18 @@
+server {
+    listen 80;
+    listen [::]: 80;
+    root /var/www/pedro/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name pedro;
+
+    location / {
+        auth_basic "Área restringida";
+        auth_basic_user_file/etc/nginx/.htpasswd;  
+        
+        allow all;
+        deny 80.28.211.131;
+        
+        try_files $uri $uri / =404;
+    }
+}

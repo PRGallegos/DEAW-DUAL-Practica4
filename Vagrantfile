@@ -12,24 +12,29 @@ Vagrant.configure("2") do |config|
       apt-get update -y
       apt-get install -y nginx openssl
 
-      # Crear carpeta en la máquina
-      mkdir -p /var/www/practica2.2/html
+      # Crear directorio para el proyecto
+      mkdir -p /var/www/pedro/html
+      git clone https://github.com/cloudacademy/static-website-example /var/www/pedro/html
+      chown -R www-data:www-data /var/www/pedro/html
+      chmod -R 755 /var/www/pedro
 
-      # Copiar carpeta
-      cp -r /vagrant/html /var/www/practica2.2/html
-
-
-      # Configuración de permisos para la carpeta del sitio web
-      chown -R www-data:www-data /var/www/practica2.2
-      chmod -R 755 /var/www/practica2.2
+      # Configuración para el sitio web
+      mkdir -p /var/www/perfectweb/html
+      cp -r /vagrant/html/* /var/www/perfectweb/html/
+      chown -R www-data:www-data /var/www/perfectweb/html
+      chmod -R 755 /var/www/perfectweb
 
       # Autenticación
       sh -c "echo 'pedro:$(openssl passwd -apr1 1234)' >> /etc/nginx/.htpasswd" 
       sh -c "echo 'gallegos:$(openssl passwd -apr1 1234)' >> /etc/nginx/.htpasswd"
 
-      # Configuración servidor NGINX
-      cp -v /vagrant/auth-basic.conf /etc/nginx/sites-available/pedro
+      # Configuración pedro
+      cp -v /vagrant/pedro /etc/nginx/sites-available/pedro
       ln -s /etc/nginx/sites-available/pedro /etc/nginx/sites-enabled/
+
+      # Confuguración perfectweb
+      cp -v /vagrant/perfectweb /etc/nginx/sites-available/perfectweb
+      ln -s /etc/nginx/sites-available/perfectweb /etc/nginx/sites-enabled/
 
       # Verificar servicios
       systemctl status nginx
