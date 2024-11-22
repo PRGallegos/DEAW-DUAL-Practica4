@@ -37,8 +37,8 @@ Vagrant.configure("2") do |config|
       ln -s /etc/nginx/sites-available/perfectweb /etc/nginx/sites-enabled/
 
       # Verificar servicios
-      systemctl status nginx
-
+      nginx -t
+      
       # Reiniciar servicios
       systemctl restart nginx
     SHELL
