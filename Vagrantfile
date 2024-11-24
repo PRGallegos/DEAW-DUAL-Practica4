@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config|
 
     # Aprovisionamiento de la máquina
     config.vm.provision "shell", inline: <<-SHELL
-      # Actualización del sistema e instalación de paquetes
+      # Actualización e instalación de paquetes
       apt-get update -y
       apt-get install -y nginx openssl
 
@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
       chown -R www-data:www-data /var/www/pedro/html
       chmod -R 755 /var/www/pedro
 
-      # Configuración para el sitio web
+      # Configuración del sitio web
       mkdir -p /var/www/perfectweb/html
       cp -r /vagrant/html/* /var/www/perfectweb/html/
       chown -R www-data:www-data /var/www/perfectweb/html
